@@ -1,6 +1,6 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
- * Author             : WCH
+ * Author             : WCH (Nikita Danilov)
  * Version            : V1.0.0
  * Date               : 2024/01/05
  * Description        : Main program body.
@@ -19,6 +19,7 @@
  */
 
 #include "debug.h"
+#include "1_Buttons/1_Buttons.h"
 
 /* Global typedef */
 
@@ -33,17 +34,18 @@
  *
  * @return  none
  */
-int main(void)
-{
+int main(void) {
+    SystemInit();
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     SystemCoreClockUpdate();
     Delay_Init();
-    USART_Printf_Init(115200);
-    printf("SystemClk:%d\r\n", SystemCoreClock);
-    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
-    printf("This is printf example\r\n");
+
+    UART_Init();           // §ª§ß§Ú§è§Ú§Ñ§Ý§Ú§Ù§Ñ§è§Ú§ñ UART
+    GPIO_Initial();           // §ª§ß§Ú§è§Ú§Ñ§Ý§Ú§Ù§Ñ§è§Ú§ñ GPIO (§Ü§ß§à§á§Ü§Ú)
+    Button_Init();         // §ª§ß§Ú§è§Ú§Ñ§Ý§Ú§Ù§Ñ§è§Ú§ñ §Ü§ß§à§á§à§Ü
 
     while(1)
     {
+        Button_Process();  // §°§Ò§â§Ñ§Ò§à§ä§Ü§Ñ §ã§à§ã§ä§à§ñ§ß§Ú§Û §Ü§ß§à§á§à§Ü
     }
 }
