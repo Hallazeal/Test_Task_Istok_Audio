@@ -55,8 +55,8 @@ int main(void) {
 
 //    Button_Init();
 
-//    LED_Init();
-    SK6812_Init();
+    LED_Init(); // 2 method
+//    SK6812_Init(); // 1 method
 
 //    Flash_Init();
 //    TIM3_Init();
@@ -65,24 +65,24 @@ int main(void) {
     {
 //        Button_Task();
 
-//        LED_SetAll(WHITE);// §¢§Ö§Ý§í§Û
-//        Delay_Ms(2000);
-//        LED_SetAll(RED);// §¬§â§Ñ§ã§ß§í§Û
-//        Delay_Ms(2000);
-//        LED_SetAll(BLACK);// §£§í§Ü§Ý§ð§é§Ö§ß§Ú§Ö
-//        Delay_Ms(2000);
+        LED_SetAll(WHITE);// §¢§Ö§Ý§í§Û
+        Delay_Ms(2000);
+        LED_SetAll(RED);// §¬§â§Ñ§ã§ß§í§Û
+        Delay_Ms(2000);
+        LED_SetAll(BLACK);// §£§í§Ü§Ý§ð§é§Ö§ß§Ú§Ö
+        Delay_Ms(2000);
 
-        SK6812_SetAll(Colors[1]);// §¢§Ö§Ý§í§Û
-        SK6812_Show();
-        Delay_Ms(1000);
-
-        SK6812_SetAll(Colors[2]);// §¬§â§Ñ§ã§ß§í§Û
-        SK6812_Show();
-        Delay_Ms(1000);
-
-        SK6812_SetAll(Colors[0]);// §£§í§Ü§Ý§ð§é§Ö§ß§Ú§Ö
-        SK6812_Show();
-        Delay_Ms(1000);
+//        SK6812_SetAll(Colors[1]);// §¢§Ö§Ý§í§Û
+//        SK6812_Show();
+//        Delay_Ms(1000);
+//
+//        SK6812_SetAll(Colors[2]);// §¬§â§Ñ§ã§ß§í§Û
+//        SK6812_Show();
+//        Delay_Ms(1000);
+//
+//        SK6812_SetAll(Colors[0]);// §£§í§Ü§Ý§ð§é§Ö§ß§Ú§Ö
+//        SK6812_Show();
+//        Delay_Ms(1000);
 
 //        for(uint8_t i=0; i<SK6812_NUM_LEDS; i++)//§á§Ö§â§Ö§Ò§à§â §Õ§Ý§ñ §Ü§Ñ§Ø§Õ§à§Ô§à §Ú§Ù 2 §ã§Ó§Ö§ä§à§Õ§Ú§à§Õ§à§Ó
 //        {
