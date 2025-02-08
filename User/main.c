@@ -1,6 +1,6 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
- * Author             : WCH
+ * Author             : WCH (Nikita Danilov)
  * Version            : V1.0.0
  * Date               : 2024/01/05
  * Description        : Main program body.
@@ -35,13 +35,10 @@
  */
 int main(void)
 {
+    SystemInit();
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     SystemCoreClockUpdate();
     Delay_Init();
-    USART_Printf_Init(115200);
-    printf("SystemClk:%d\r\n", SystemCoreClock);
-    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
-    printf("This is printf example\r\n");
 
     while(1)
     {
