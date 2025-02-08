@@ -22,11 +22,11 @@ void LED_Init(void) {
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
 
-    AFIO->PCFR1 |= AFIO_PCFR1_TIM3_REMAP_FULLREMAP; // §±§à§Ý§ß§í§Û §â§Ö§Þ§Ñ§á TIM3: CH2 ¡ú PC7
+    GPIO_PinRemapConfig(GPIO_FullRemap_TIM3, ENABLE);
 
     // §¯§Ñ§ã§ä§â§à§Û§Ü§Ñ PC7 (TIM3_CH2) §Ó §â§Ö§Ø§Ú§Þ §Ñ§Ý§î§ä§Ö§â§ß§Ñ§ä§Ú§Ó§ß§à§Û §æ§å§ß§Ü§è§Ú§Ú Push-Pull
     GPIO_InitTypeDef GPIO_InitStructure;
-    GPIO_InitStructure.GPIO_Pin = GPIO_FullRemap_TIM3;
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
@@ -46,9 +46,6 @@ void LED_Init(void) {
     DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
     DMA_Init(DMA1_Channel3, &DMA_InitStructure);
 
-    // §±§à§Õ§Ü§Ý§ð§é§Ñ§Ö§Þ DMA §Ü TIM3_CH2
-    TIM_DMACmd(TIM3, TIM_DMA_CC2, ENABLE);
-
     // §¯§Ñ§ã§ä§â§à§Û§Ü§Ñ §ä§Ñ§Û§Þ§Ö§â§Ñ TIM3 §Õ§Ý§ñ PWM
     TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
     TIM_TimeBaseStructure.TIM_Prescaler = 0;
@@ -64,6 +61,9 @@ void LED_Init(void) {
     TIM_OCInitStructure.TIM_Pulse = 0;
     TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
     TIM_OC2Init(TIM3, &TIM_OCInitStructure);
+
+    // §±§à§Õ§Ü§Ý§ð§é§Ñ§Ö§Þ DMA §Ü TIM3_CH2
+    TIM_DMACmd(TIM3, TIM_DMA_CC2, ENABLE);
 
     DMA_Cmd(DMA1_Channel3, ENABLE);  // §£§Ü§Ý§ð§é§Ñ§Ö§Þ DMA
     TIM_Cmd(TIM3, ENABLE);           // §£§Ü§Ý§ð§é§Ñ§Ö§Þ §ä§Ñ§Û§Þ§Ö§â
