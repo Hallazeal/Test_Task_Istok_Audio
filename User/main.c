@@ -40,6 +40,7 @@ int main(void) {
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     Delay_Init();
 
+    USART_Initial();
     Blink_Init();
 
     while(1)

@@ -11,6 +11,8 @@
 
 extern volatile uint8_t blink_active;
 
+void USART_Initial(void);
+void USART_SendString(const char *str);
 void Blink_Init(void);
 void Blinking(void);
 void Button_Control(void);
