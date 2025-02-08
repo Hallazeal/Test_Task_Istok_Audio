@@ -9,11 +9,11 @@
 #include "2_LED.h"
 
 // §¢§å§æ§Ö§â §Õ§Ý§ñ §á§Ö§â§Ö§Õ§Ñ§é§Ú §Õ§Ñ§ß§ß§í§ç §á§à DMA
-uint16_t pwm_buffer[BIT_COUNT + RESET_PULSE] = {0};
+uint16_t pwm_buffer[BIT_COUNT + RESET_PULSE] = { 0 };
 
-const Color_t BLACK = {0, 0, 0}, WHITE = {20, 20, 20}, RED = {20, 0, 0},
-              GREEN = {0, 20, 0}, BLUE = {0, 0, 20}, YELLOW = {20, 20, 0},
-              PURPLE = {20, 0, 20}, CYAN = {0, 20, 20}, ORANGE = {20, 10, 0};
+const Color_t BLACK = { 0, 0, 0 }, WHITE = { 20, 20, 20 }, RED = { 20, 0, 0 },
+        GREEN = { 0, 20, 0 }, BLUE = { 0, 0, 20 }, YELLOW = { 20, 20, 0 },
+        PURPLE = { 20, 0, 20 }, CYAN = { 0, 20, 20 }, ORANGE = { 20, 10, 0 };
 
 // === §ª§ß§Ú§è§Ú§Ñ§Ý§Ú§Ù§Ñ§è§Ú§ñ GPIO, PWM §Ú DMA ===
 void LED_Init(void) {
@@ -22,15 +22,32 @@ void LED_Init(void) {
     RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
 
+    AFIO->PCFR1 |= AFIO_PCFR1_TIM3_REMAP_FULLREMAP; // §±§à§Ý§ß§í§Û §â§Ö§Þ§Ñ§á TIM3: CH2 ¡ú PC7
 
     // §¯§Ñ§ã§ä§â§à§Û§Ü§Ñ PC7 (TIM3_CH2) §Ó §â§Ö§Ø§Ú§Þ §Ñ§Ý§î§ä§Ö§â§ß§Ñ§ä§Ú§Ó§ß§à§Û §æ§å§ß§Ü§è§Ú§Ú Push-Pull
     GPIO_InitTypeDef GPIO_InitStructure;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;
+    GPIO_InitStructure.GPIO_Pin = GPIO_FullRemap_TIM3;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_Init(GPIOC, &GPIO_InitStructure);
 
-    AFIO->PCFR1 |= AFIO_PCFR1_TIM3_REMAP_FULLREMAP;  // §±§à§Ý§ß§í§Û §â§Ö§Þ§Ñ§á TIM3: CH2 ¡ú PC7
+    // §¯§Ñ§ã§ä§â§à§Û§Ü§Ñ DMA
+    DMA_InitTypeDef DMA_InitStructure;
+    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &TIM3->CH2CVR;
+    DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t) pwm_buffer;
+    DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
+    DMA_InitStructure.DMA_BufferSize = BIT_COUNT + RESET_PULSE;
+    DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
+    DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
+    DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Word;
+    DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;
+    DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;
+    DMA_InitStructure.DMA_Priority = DMA_Priority_High;
+    DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
+    DMA_Init(DMA1_Channel3, &DMA_InitStructure);
+
+    // §±§à§Õ§Ü§Ý§ð§é§Ñ§Ö§Þ DMA §Ü TIM3_CH2
+    TIM_DMACmd(TIM3, TIM_DMA_CC2, ENABLE);
 
     // §¯§Ñ§ã§ä§â§à§Û§Ü§Ñ §ä§Ñ§Û§Þ§Ö§â§Ñ TIM3 §Õ§Ý§ñ PWM
     TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
@@ -47,24 +64,6 @@ void LED_Init(void) {
     TIM_OCInitStructure.TIM_Pulse = 0;
     TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;
     TIM_OC2Init(TIM3, &TIM_OCInitStructure);
-
-    // §±§à§Õ§Ü§Ý§ð§é§Ñ§Ö§Þ DMA §Ü TIM3_CH2
-    TIM_DMACmd(TIM3, TIM_DMA_CC2, ENABLE);
-
-    // §¯§Ñ§ã§ä§â§à§Û§Ü§Ñ DMA
-    DMA_InitTypeDef DMA_InitStructure;
-    DMA_InitStructure.DMA_PeripheralBaseAddr = (uint32_t) &TIM3->CH2CVR;
-    DMA_InitStructure.DMA_MemoryBaseAddr = (uint32_t) pwm_buffer;
-    DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralDST;
-    DMA_InitStructure.DMA_BufferSize = BIT_COUNT + RESET_PULSE;
-    DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable;
-    DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Enable;
-    DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_HalfWord;
-    DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_HalfWord;
-    DMA_InitStructure.DMA_Mode = DMA_Mode_Normal;
-    DMA_InitStructure.DMA_Priority = DMA_Priority_High;
-    DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
-    DMA_Init(DMA1_Channel3, &DMA_InitStructure);
 
     DMA_Cmd(DMA1_Channel3, ENABLE);  // §£§Ü§Ý§ð§é§Ñ§Ö§Þ DMA
     TIM_Cmd(TIM3, ENABLE);           // §£§Ü§Ý§ð§é§Ñ§Ö§Þ §ä§Ñ§Û§Þ§Ö§â
