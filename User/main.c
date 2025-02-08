@@ -1,6 +1,6 @@
 /********************************** (C) COPYRIGHT *******************************
  * File Name          : main.c
- * Author             : WCH
+ * Author             : WCH (Nikita Danilov)
  * Version            : V1.0.0
  * Date               : 2024/01/05
  * Description        : Main program body.
@@ -19,6 +19,7 @@
  */
 
 #include "debug.h"
+#include "3_Blink/3_Blink.h"
 
 /* Global typedef */
 
@@ -33,17 +34,17 @@
  *
  * @return  none
  */
-int main(void)
-{
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
+int main(void) {
+    SystemInit();
     SystemCoreClockUpdate();
+    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     Delay_Init();
-    USART_Printf_Init(115200);
-    printf("SystemClk:%d\r\n", SystemCoreClock);
-    printf( "ChipID:%08x\r\n", DBGMCU_GetCHIPID() );
-    printf("This is printf example\r\n");
+
+    Blink_Init();
 
     while(1)
     {
+        Blinking();
+        Delay_Ms(1000);
     }
 }
