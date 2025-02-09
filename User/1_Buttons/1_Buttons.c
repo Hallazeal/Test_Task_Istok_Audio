@@ -80,11 +80,11 @@ void Button_Process(void) {
         if (i < 2)  // §¥§Ý§ñ §Ü§ß§à§á§à§Ü §ß§Ñ §á§à§â§ä§å B
                 {
             currentButtonState = GPIO_ReadInputDataBit(GPIOB,
-                    (i == 0) ? GPIO_Pin_12 : GPIO_Pin_13);
+                    (i == 0) ? GPIO_Pin_13 : GPIO_Pin_12);
         } else  // §¥§Ý§ñ §Ü§ß§à§á§à§Ü §ß§Ñ §á§à§â§ä§å C
         {
             currentButtonState = GPIO_ReadInputDataBit(GPIOC,
-                    (i == 2) ? GPIO_Pin_4 : GPIO_Pin_5);
+                    (i == 2) ? GPIO_Pin_5 : GPIO_Pin_4);
         }
 
         // §°§Ò§â§Ñ§Ò§à§ä§Ü§Ñ §ã§à§ã§ä§à§ñ§ß§Ú§ñ §Ü§ß§à§á§Ü§Ú
