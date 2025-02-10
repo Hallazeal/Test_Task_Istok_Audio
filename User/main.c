@@ -40,11 +40,11 @@ int main(void) {
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     Delay_Init();
 
-    Blink_Init();
+    Blink_Initial();
 
     while(1)
     {
         Blinking();
-        Delay_Ms(1000);
+        Delay_Ms(150);
     }
 }
