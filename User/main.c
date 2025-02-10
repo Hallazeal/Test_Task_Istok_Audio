@@ -20,6 +20,8 @@
 
 #include "debug.h"
 #include "1_Buttons/1_Buttons.h"
+#include "USART/USART.h"
+#include "GPIO/GPIO.h"
 
 /* Global typedef */
 
@@ -40,12 +42,12 @@ int main(void) {
     SystemCoreClockUpdate();
     Delay_Init();
 
-    UART_Init();           // §ª§ß§Ú§è§Ú§Ñ§Ý§Ú§Ù§Ñ§è§Ú§ñ UART
-    GPIO_Initial();           // §ª§ß§Ú§è§Ú§Ñ§Ý§Ú§Ù§Ñ§è§Ú§ñ GPIO (§Ü§ß§à§á§Ü§Ú)
-    Button_Init();         // §ª§ß§Ú§è§Ú§Ñ§Ý§Ú§Ù§Ñ§è§Ú§ñ §Ü§ß§à§á§à§Ü
+    USART_Initial();
+    GPIO_Initial();
+    Button_Initial();
 
     while(1)
     {
-        Button_Process();  // §°§Ò§â§Ñ§Ò§à§ä§Ü§Ñ §ã§à§ã§ä§à§ñ§ß§Ú§Û §Ü§ß§à§á§à§Ü
+        Button_Control();
     }
 }
