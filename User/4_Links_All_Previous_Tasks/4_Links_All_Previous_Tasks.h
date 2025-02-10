@@ -8,12 +8,18 @@
 #ifndef USER_4_LINKS_ALL_PREVIOUS_TASKS_4_LINKS_ALL_PREVIOUS_TASKS_H_
 #define USER_4_LINKS_ALL_PREVIOUS_TASKS_4_LINKS_ALL_PREVIOUS_TASKS_H_
 
+#define PORT_B           GPIOB
+#define PORT_C           GPIOC
+
+#define BUTTON_PIN_B            GPIO_Pin_12
+#define BUTTON_PIN_C            GPIO_Pin_5
+#define LED_PIN_C               GPIO_Pin_6
 
 extern volatile uint8_t blink_active;
 
-void USART_Initial(void);
-void USART_SendString(const char *str);
-void Blink_Init(void);
+void Delay_Ms_Check(uint32_t ms);
+void Blink_On(void);
+void Blink_Off(void);
 void Blinking(void);
 void Button_Control(void);
 

@@ -19,6 +19,7 @@
  */
 
 #include "debug.h"
+#include "GPIO/GPIO.h"
 #include "4_Links_All_Previous_Tasks/4_Links_All_Previous_Tasks.h"
 
 /* Global typedef */
@@ -36,18 +37,16 @@
  */
 int main(void) {
     SystemInit();
-    SystemCoreClockUpdate();
-    NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     Delay_Init();
 
-    USART_Initial();
-    Blink_Init();
+    GPIO_Initial();
+    USART_Printf_Init(115200);
 
     while(1)
     {
-        Button_Control();  // §°§Ò§â§Ñ§Ò§Ñ§ä§í§Ó§Ñ§Ö§Þ §ß§Ñ§Ø§Ñ§ä§Ú§ñ §Ü§ß§à§á§à§Ü
+        Button_Control();
         if (blink_active) {
-            Blinking();  // §©§Ñ§á§å§ã§Ü§Ñ§Ö§Þ §á§à§ã§Ý§Ö§Õ§à§Ó§Ñ§ä§Ö§Ý§î§ß§à§ã§ä§î §â§Ñ§Ù §Ó 100 §Þ§Ú§Ý§Ý§Ú§ã§Ö§Ü§å§ß§Õ
+            Blinking();
             Delay_Ms(100);
         }
     }
