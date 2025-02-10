@@ -20,7 +20,6 @@
 
 #include "debug.h"
 #include "1_Buttons/1_Buttons.h"
-#include "USART/USART.h"
 #include "GPIO/GPIO.h"
 
 /* Global typedef */
@@ -39,15 +38,16 @@
 int main(void) {
     SystemInit();
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
-    SystemCoreClockUpdate();
     Delay_Init();
 
-    USART_Initial();
+
     GPIO_Initial();
+    USART_Printf_Init(115200);
     Button_Initial();
 
     while(1)
     {
         Button_Control();
+        Delay_Ms(1);
     }
 }
