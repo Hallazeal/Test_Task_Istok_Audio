@@ -20,6 +20,9 @@
 
 #include "debug.h"
 #include "2_LED/2_LED.h"
+#include "GPIO/GPIO.h"
+#include "DMA/DMA.h"
+#include "Timer/TIM3.h"
 
 /* Global typedef */
 
@@ -40,15 +43,18 @@ int main(void) {
     SystemCoreClockUpdate();
     Delay_Init();
 
-    LED_Init(); // 2 method
+    GPIO_Initial();
+    DMA_Initial();
+    TIM3_CH2_PWM_Initial();
+
 
     while(1)
     {
-        LED_SetAll(WHITE);// §¢§Ö§Ý§í§Û
+        LED_SetAll(WHITE);// White
         Delay_Ms(2000);
-//        LED_SetAll(RED);// §¬§â§Ñ§ã§ß§í§Û
-//        Delay_Ms(2000);
-//        LED_SetAll(BLACK);// §£§í§Ü§Ý§ð§é§Ö§ß§Ú§Ö
-//        Delay_Ms(2000);
+        LED_SetAll(RED);// Red
+        Delay_Ms(2000);
+        LED_SetAll(BLACK);// Off(Black)
+        Delay_Ms(2000);
     }
 }
