@@ -19,9 +19,8 @@
  */
 
 #include "debug.h"
-//#include "1_Buttons/1_Buttons.h"
+#include "GPIO/GPIO.h"
 #include "2_LED/2_LED.h"
-//#include "3_Strobe/3_Strobe.h"
 
 /* Global typedef */
 
@@ -42,19 +41,19 @@ int main(void) {
     SystemCoreClockUpdate();
     Delay_Init();
 
-    SK6812_Init();
+    GPIO_Initial();
 
     while(1)
     {
-        SK6812_SetAll(Colors[1]); // §¢§Ö§Ý§í§Û
+        SK6812_SetAll(Colors[1]); // White
         SK6812_Show();
         Delay_Ms(2000);
 
-        SK6812_SetAll(Colors[2]);// §¬§â§Ñ§ã§ß§í§Û
+        SK6812_SetAll(Colors[2]);// Red
         SK6812_Show();
         Delay_Ms(2000);
 
-        SK6812_SetAll(Colors[0]);// §£§í§Ü§Ý§ð§é§Ö§ß§Ú§Ö
+        SK6812_SetAll(Colors[0]);// Off(Black)
         SK6812_Show();
         Delay_Ms(2000);
     }
