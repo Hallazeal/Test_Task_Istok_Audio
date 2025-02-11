@@ -8,13 +8,6 @@
 #ifndef USER_4_LINKS_ALL_PREVIOUS_TASKS_4_LINKS_ALL_PREVIOUS_TASKS_H_
 #define USER_4_LINKS_ALL_PREVIOUS_TASKS_4_LINKS_ALL_PREVIOUS_TASKS_H_
 
-#define PORT_B           GPIOB
-#define PORT_C           GPIOC
-
-#define BUTTON_PIN_B            GPIO_Pin_12
-#define BUTTON_PIN_C            GPIO_Pin_5
-#define LED_PIN_C               GPIO_Pin_6
-
 extern volatile uint8_t blink_active;
 
 void Delay_Ms_Check(uint32_t ms);

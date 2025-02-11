@@ -13,7 +13,7 @@ volatile uint8_t blink_active = 0;  // Sequence Activity Flag
 
 void Delay_Ms_Check(uint32_t ms) {
     while (ms--) {
-        if (GPIO_ReadInputDataBit(PORT_C, GPIO_Pin_5) == 0) { // If button is pressed
+        if (GPIO_ReadInputDataBit(GPIOC, BUTTON_PIN_3) == 0) { // If button 3 is pressed
             blink_active = 0;
             Blink_Off();
             printf("Blink stopped\r\n");
@@ -24,11 +24,11 @@ void Delay_Ms_Check(uint32_t ms) {
 }
 
 void Blink_On(void) {
-    GPIO_SetBits(PORT_C, LED_PIN_C);
+    GPIO_SetBits(GPIOC, LED_PIN);
 }
 
 void Blink_Off(void) {
-    GPIO_ResetBits(PORT_C, LED_PIN_C);
+    GPIO_ResetBits(GPIOC, LED_PIN);
 }
 
 void Blinking(void) {
@@ -48,9 +48,9 @@ void Blinking(void) {
 }
 
 void Button_Control(void) {
-    if (GPIO_ReadInputDataBit(PORT_B, BUTTON_PIN_B) == 0) {
+    if (GPIO_ReadInputDataBit(GPIOB, BUTTON_PIN_2) == 0) {
         blink_active = 1;
         printf("Blink started\r\n");
-        while (GPIO_ReadInputDataBit(PORT_B, BUTTON_PIN_B) == 0);
+        while (GPIO_ReadInputDataBit(GPIOB, BUTTON_PIN_2) == 0);
     }
 }
