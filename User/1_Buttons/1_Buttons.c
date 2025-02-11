@@ -7,6 +7,7 @@
 
 #include "ch32v10x.h"
 #include "1_Buttons.h"
+#include "GPIO/GPIO.h"
 
 static uint32_t buttonPressTime[BUTTON_COUNT] = { 0 };  // Button press time
 static uint8_t buttonState[BUTTON_COUNT] = { 0 }; // Button state (0 - not pressed, 1 - pressed)
@@ -27,11 +28,11 @@ void Button_Control(void) {
         if (i < 2)
                 {
             currentButtonState = GPIO_ReadInputDataBit(GPIOB,
-                    (i == 0) ? GPIO_Pin_13 : GPIO_Pin_12);
+                    (i == 0) ? BUTTON_PIN_2 : BUTTON_PIN_1);
         } else
         {
             currentButtonState = GPIO_ReadInputDataBit(GPIOC,
-                    (i == 2) ? GPIO_Pin_5 : GPIO_Pin_4);
+                    (i == 2) ? BUTTON_PIN_4 : BUTTON_PIN_3);
         }
 
         // Handling the state of a button
