@@ -20,6 +20,7 @@
 
 #include "debug.h"
 #include "3_Blink/3_Blink.h"
+#include "GPIO/GPIO.h"
 
 /* Global typedef */
 
@@ -40,7 +41,7 @@ int main(void) {
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_1);
     Delay_Init();
 
-    Blink_Initial();
+    GPIO_Initial();
 
     while(1)
     {

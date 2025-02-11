@@ -7,25 +7,15 @@
 
 #include "ch32v10x.h"
 #include "3_Blink.h"
+#include "GPIO/GPIO.h"
 
-void Blink_Initial(void) {
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOC, ENABLE);
-
-    GPIO_InitTypeDef GPIO_InitStructure;
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(GPIOC, &GPIO_InitStructure);
-
-    GPIO_ResetBits(GPIOC, GPIO_Pin_6);  // Turn off the LED (LOW)
-}
 
 void Blink_On(void) {
-    GPIO_SetBits(GPIOC, GPIO_Pin_6);  // HIGH - turn on the LED
+    GPIO_SetBits(GPIOC, LED_PIN);  // HIGH - turn on the LED
 }
 
 void Blink_Off(void) {
-    GPIO_ResetBits(GPIOC, GPIO_Pin_6);  // LOW - turn off the LED
+    GPIO_ResetBits(GPIOC, LED_PIN);  // LOW - turn off the LED
 }
 
 void Blinking(void) {
